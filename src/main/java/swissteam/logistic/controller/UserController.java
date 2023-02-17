@@ -15,17 +15,17 @@ public class UserController {
     @Autowired
     private UserRepository repository;
 
-    @PostMapping(path = "api/user/save")
+    @PostMapping(path = "user/save")
     public UserModel save (@RequestBody UserModel user) {
         return repository.save(user);
     }
 
-    @GetMapping(path = "api/user")
+    @GetMapping(path = "user")
     public List<UserModel> getAll() {
         return (List<UserModel>) repository.findAll();
     }
 
-    @GetMapping(path = "api/user/{id}")
+    @GetMapping(path = "user/{id}")
     public ResponseEntity getById(@PathVariable("id") Integer id) {
         return repository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))

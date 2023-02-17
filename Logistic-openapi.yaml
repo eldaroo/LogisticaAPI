@@ -1,0 +1,68 @@
+openapi: "3.0.3"
+info:
+  title: "Logistic API"
+  description: "Logistic API"
+  version: "1.0.0"
+servers:
+  - url: "https://Logistic"
+paths:
+  /user/{id}:
+    get:
+      summary: "GET user/{id}"
+      operationId: "getById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseEntity"
+  /user/save:
+    post:
+      summary: "POST user/save"
+      operationId: "save"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserModel"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserModel"
+  /user:
+    get:
+      summary: "GET user"
+      operationId: "getAll"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/UserModel"
+components:
+  schemas:
+    UserModel:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        email:
+          type: "string"
