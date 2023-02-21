@@ -5,10 +5,15 @@ info:
   version: "1.0.0"
 servers:
   - url: "https://Logistic"
+tags:
+  - name: Users
+    description: Endpoints referidos a la interacción con usuarios
 paths:
   /user/{id}:
     get:
-      summary: "GET user/{id}"
+      tags:
+        - Users
+      summary: "Obtener un usuario usando el id"
       operationId: "getById"
       parameters:
         - name: "id"
@@ -20,13 +25,12 @@ paths:
       responses:
         "200":
           description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ResponseEntity"
+
   /user/save:
     post:
-      summary: "POST user/save"
+      tags:
+        - Users
+      summary: "Salvar un usuario"
       operationId: "save"
       requestBody:
         content:
@@ -37,13 +41,11 @@ paths:
       responses:
         "200":
           description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/UserModel"
   /user:
     get:
-      summary: "GET user"
+      tags:
+        - Users
+      summary: "Obtener todos los usuarios"
       operationId: "getAll"
       responses:
         "200":
