@@ -1,24 +1,27 @@
 package swissteam.logistic.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import swissteam.logistic.model.UserModel;
 import swissteam.logistic.repository.UserRepository;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
 
+    public UserController(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(path = "user/save")
     public UserModel save (@RequestBody UserModel user) {
         return repository.save(user);
     }
+
 
     @GetMapping(path = "user")
     public List<UserModel> getAll() {

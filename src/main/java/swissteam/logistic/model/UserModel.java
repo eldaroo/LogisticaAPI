@@ -7,9 +7,31 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false, length = 50)
-    private String name;
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false, length = 50)
     private String email;
+    @Column(nullable = false)
+    private String roles;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -19,12 +41,12 @@ public class UserModel {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public String getEmail() {
