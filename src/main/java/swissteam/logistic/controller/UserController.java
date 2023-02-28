@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     private final UserRepository repository;

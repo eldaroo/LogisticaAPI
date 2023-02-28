@@ -1,30 +1,55 @@
 package swissteam.logistic.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import swissteam.logistic.exception.ApiRequestException;
 import swissteam.logistic.model.OrderModel;
-import swissteam.logistic.repository.OrderRepository;
+import swissteam.logistic.service.impl.OrderServiceImpl;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class OrderController {
 
-    private final OrderRepository repository;
+    private final OrderServiceImpl service;
 
-    public OrderController(OrderRepository repository) {
-        this.repository = repository;
+    public OrderController(OrderServiceImpl service) {
+        this.service = service;
     }
 
     @GetMapping(path = "order")
-    public List<OrderModel> getOrders() {
-        return (List<OrderModel>) repository.findAll();
+    public ResponseEntity getOrders() {
+        try {
+            return new ResponseEntity<>(service.getOrders(), HttpStatus.ACCEPTED);
+        } catch (ApiRequestException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+        }
+    }
+
+    @GetMapping(path="order/{id}")
+    public ResponseEntity getOrderById(@PathVariable("id") Integer id) {
+        try {
+            return new ResponseEntity<>(service.getOrderById(id), HttpStatus.ACCEPTED);
+        } catch (ApiRequestException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+
+        }
     }
 
     @PostMapping(path="order/save")
     public OrderModel save(@RequestBody OrderModel order){
-        return repository.save(order);
+        return service.save(order);
+    }
+
+    @DeleteMapping(path="order/{id}")
+    public ResponseEntity remove(@PathVariable("id") Integer id) {
+        try {
+            service.remove(id);
+            return new ResponseEntity<>("La orden "+id+" fue eliminada con éxito", HttpStatus.ACCEPTED);
+        } catch (ApiRequestException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+        }
     }
 }
