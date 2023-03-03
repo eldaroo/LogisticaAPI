@@ -19,7 +19,20 @@ DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE IF NOT EXISTS `orders` (
     `id` bigint(20) NOT NULL,
-    `text` varchar(255) NOT NULL
+    `text` varchar(255) NOT NULL,
+    `deliveryDate` DATE DEFAULT NULL,
+    `origin` varchar(50) DEFAULT NULL,
+    `state` varchar(15) DEFAULT NULL,
+    `delivery` varchar(25) DEFAULT NULL,
+    `destination` varchar(50) DEFAULT NULL,
+    `recibes` varchar(25) DEFAULT NULL,
+    `phoneRecibes` int(10) DEFAULT NULL,
+    `bundle` varchar(50) DEFAULT NULL,
+    `missing` varchar(90) DEFAULT NULL,
+    `observations` varchar(100) DEFAULT NULL,
+    `deliveryObservations` varchar(90) DEFAULT NULL,
+    `logistic` varchar(90) DEFAULT NULL,
+    `usersId` int(11) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
