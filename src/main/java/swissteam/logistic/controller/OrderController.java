@@ -1,6 +1,8 @@
 package swissteam.logistic.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import swissteam.logistic.exception.ApiRequestException;
@@ -45,11 +47,13 @@ public class OrderController {
 
     @DeleteMapping(path="order/{id}")
     public ResponseEntity remove(@PathVariable("id") Integer id) {
+        final HttpHeaders httpHeaders= new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         try {
             service.remove(id);
-            return new ResponseEntity<>("La orden "+id+" fue eliminada con éxito", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("La orden "+id+" fue eliminada con éxito", httpHeaders, HttpStatus.ACCEPTED);
         } catch (ApiRequestException e) {
-            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+            return new ResponseEntity<>(e.getMessage(), httpHeaders, e.getHttpStatus());
         }
     }
 }
