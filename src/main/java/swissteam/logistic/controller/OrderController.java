@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/order")
 public class OrderController {
 
     private final OrderServiceImpl service;
@@ -21,7 +22,7 @@ public class OrderController {
         this.service = service;
     }
 
-    @GetMapping(path = "order")
+    @GetMapping()
     public ResponseEntity getOrders() {
         try {
             return new ResponseEntity<>(service.getOrders(), HttpStatus.ACCEPTED);
@@ -30,7 +31,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping(path="order/{id}")
+    @GetMapping(path="/{id}")
     public ResponseEntity getOrderById(@PathVariable("id") Integer id) {
         try {
             return new ResponseEntity<>(service.getOrderById(id), HttpStatus.ACCEPTED);
@@ -40,12 +41,12 @@ public class OrderController {
         }
     }
 
-    @PostMapping(path="order/save")
+    @PostMapping(path="/save")
     public OrderModel save(@RequestBody OrderModel order){
         return service.save(order);
     }
 
-    @DeleteMapping(path="order/{id}")
+    @DeleteMapping(path="/{id}")
     public ResponseEntity remove(@PathVariable("id") Integer id) {
         final HttpHeaders httpHeaders= new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

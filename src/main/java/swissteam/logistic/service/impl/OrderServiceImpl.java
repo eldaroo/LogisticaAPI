@@ -31,13 +31,13 @@ public class OrderServiceImpl implements OrderService {
         try {
             return repository.save(order);
         } catch (Exception e) {
-            throw new ApiRequestException("error intentando salvar un nuevo usuario", HttpStatus.CONFLICT);
+            throw new ApiRequestException("error intentando salvar una nueva orden", HttpStatus.CONFLICT);
         }
     }
 
     public void remove(Integer id) {
         if (!repository.existsById(id)) {
-            throw new ApiRequestException("El usuario que intenta eliminar no fue encontrado", HttpStatus.NOT_FOUND);
+            throw new ApiRequestException("La orden que intenta eliminar no fue encontrada", HttpStatus.NOT_FOUND);
         }
         repository.deleteById(id);
     }

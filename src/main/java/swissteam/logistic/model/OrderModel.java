@@ -2,10 +2,11 @@ package swissteam.logistic.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "orders")
-public class OrderModel {
+public class OrderModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

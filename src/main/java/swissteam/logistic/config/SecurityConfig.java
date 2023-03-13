@@ -1,5 +1,7 @@
 package swissteam.logistic.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,6 +20,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private ConfigurableBeanFactory beanFactory;
     private final JpaUserDetailsService myUserDetailsService;
 
     public SecurityConfig(JpaUserDetailsService myUserDetailsService) {
@@ -26,17 +30,20 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        var chain = http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/**").authenticated()
                         .requestMatchers("/order/**").permitAll()
+                        .requestMatchers("/user/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults())
+                .csrf().disable()
                 .userDetailsService(myUserDetailsService)
-                .headers(headers -> headers.frameOptions().sameOrigin())
                 .httpBasic(withDefaults())
                 .build();
+                return chain;
     }
 
     @Bean
@@ -44,4 +51,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
