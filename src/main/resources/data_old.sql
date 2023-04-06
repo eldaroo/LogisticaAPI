@@ -1,7 +1,7 @@
 --
 -- Dumping data for table `user`
 --
-INSERT INTO `user` (`id`, `email`, `username`, `roles`, `password`) VALUES
+INSERT INTO `user` (`id`, `email`, `firstname`, `role`, `password`) VALUES
    (1, 'pedro@gmail.com', 'Pedrone', 'ROLE_USER', '$2a$10$ziEQLVDdCPAEqhjZDMCrAu3/WIRI56Uz0q47Vd.z2qpHokvZgotTK'),
    (2, 'dario@gmail.com', 'Dario', 'ROLE_USER,ROLE_ADMIN', '$2a$10$ziEQLVDdCPAEqhjZDMCrAu3/WIRI56Uz0q47Vd.z2qpHokvZgotTK'),
    (3, 'emi@gmail.com', 'Cacuuunn', 'ROLE_USER', '$2a$10$ziEQLVDdCPAEqhjZDMCrAu3/WIRI56Uz0q47Vd.z2qpHokvZgotTK');

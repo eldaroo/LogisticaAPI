@@ -52,9 +52,9 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
                         `id` bigint(20) NOT NULL,
                         `email` varchar(50) NOT NULL,
-                        `username` varchar(50) NOT NULL,
+                        `firstname` varchar(50) NOT NULL,
                         `password` varchar(255) NOT NULL,
-                        `roles` varchar(255) NOT NULL
+                        `role` varchar(255) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -64,6 +64,17 @@ DROP TABLE IF EXISTS `user_seq`;
 CREATE TABLE IF NOT EXISTS `user_seq` (
     `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+DROP TABLE IF EXISTS `token`;
+
+CREATE TABLE IF NOT EXISTS `token` (
+    `id` bigint(20) NOT NULL,
+    `token` varchar(255) NOT NULL,
+    `tokenType` varchar(50),
+    `revoked` tinyint(1),
+    `expired` tinyint(1),
+    `user_id` bigint(20) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 --
