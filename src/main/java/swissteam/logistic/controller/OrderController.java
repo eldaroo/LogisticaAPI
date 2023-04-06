@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import swissteam.logistic.exception.ApiRequestException;
-import swissteam.logistic.model.OrderModel;
+import swissteam.logistic.model.Order;
 import swissteam.logistic.service.impl.OrderServiceImpl;
 import com.google.gson.Gson;
 
@@ -42,7 +42,7 @@ public class OrderController {
     }
 
     @PostMapping(path="/save")
-    public OrderModel save(@RequestBody OrderModel order){
+    public Order save(@RequestBody Order order){
         return service.save(order);
     }
 

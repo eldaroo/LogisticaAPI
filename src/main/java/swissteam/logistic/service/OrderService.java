@@ -1,15 +1,15 @@
 package swissteam.logistic.service;
 
 import swissteam.logistic.exception.ApiRequestException;
-import swissteam.logistic.model.OrderModel;
+import swissteam.logistic.model.Order;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    List<OrderModel> getOrders() throws ApiRequestException;
-    OrderModel save(OrderModel order) throws ApiRequestException;
+    List<Order> getOrders() throws ApiRequestException;
+    Order save(Order order) throws ApiRequestException;
     void remove(Integer id) throws ApiRequestException;
 
-    Optional<OrderModel> getOrderById(Integer id);
+    Optional<Order> getOrderById(Integer id);
 }

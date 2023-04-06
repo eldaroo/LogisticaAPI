@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import swissteam.logistic.exception.ApiRequestException;
-import swissteam.logistic.model.OrderModel;
+import swissteam.logistic.model.Order;
 import swissteam.logistic.repository.OrderRepository;
 import swissteam.logistic.service.OrderService;
 
@@ -19,15 +19,15 @@ public class OrderServiceImpl implements OrderService {
         this.repository = repository;
     }
 
-    public List<OrderModel> getOrders() {
+    public List<Order> getOrders() {
         try {
-            return (List<OrderModel>) repository.findAll();
+            return (List<Order>) repository.findAll();
         } catch (Exception e) {
             throw new ApiRequestException("error intentando obtener las ordenes", HttpStatus.CONFLICT);
         }
     }
 
-    public OrderModel save(@RequestBody OrderModel order) {
+    public Order save(@RequestBody Order order) {
         try {
             return repository.save(order);
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<OrderModel> getOrderById(Integer id) {
+    public Optional<Order> getOrderById(Integer id) {
         if (!repository.existsById(id)) {
             throw new ApiRequestException("El usuario al que intenta acceder no fue encontrado", HttpStatus.NOT_FOUND);
         } else {
