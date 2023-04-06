@@ -1,9 +1,10 @@
 package swissteam.logistic.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import swissteam.logistic.model.UserModel;
+import swissteam.logistic.model.User;
+
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<UserModel, Integer> {
-    Optional<UserModel> findByUsername(String username);
+public interface UserRepository extends CrudRepository<User, Integer> {
+    Optional<User> findByEmail(String email);
 }

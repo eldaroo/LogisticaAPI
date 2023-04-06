@@ -1,38 +1,45 @@
 package swissteam.logistic.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
-public class SecurityUser implements UserDetails, Serializable {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "user")
+public class User implements UserDetails, Serializable {
 
-    private final UserModel user;
+    @Id
+    @GeneratedValue
+    private Integer id;
+    private String firstname;
+    private String email;
+    private String password;
 
-    public SecurityUser(UserModel user) {
-        this.user = user;
-    }
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(user
-                .getRoles()
-                .split(","))
-                .map(SimpleGrantedAuthority::new)
-                .toList();
-    }
-
-    @Override
-    public String getPassword() {
-        return user.getPassword();
+        return List.of(new SimpleGrantedAuthority((role.name())));
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return email;
     }
 
     @Override
