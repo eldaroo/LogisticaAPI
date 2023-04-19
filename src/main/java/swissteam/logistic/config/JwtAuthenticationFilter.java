@@ -32,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserRepository repository;
-    private final RsaKeyProperties rsaKeys;
 
     public UserDetailsService userDetailsService() {
         return email -> repository.findByEmail(email)

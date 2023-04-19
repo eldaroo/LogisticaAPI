@@ -1,10 +1,13 @@
 package swissteam.logistic.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import swissteam.logistic.model.Role;
 import swissteam.logistic.model.User;
 import swissteam.logistic.model.auth.*;
@@ -22,6 +25,9 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if(repository.findByEmail(request.getEmail()).orElse(null) != null) {
+            return AuthenticationResponse.builder().token(null).build();
+        }
         var user = User.builder()
                 .email(request.getEmail())
                 .firstname(request.getFirstname())
@@ -36,18 +42,23 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        try {
+            authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            var user = repository.findByEmail(request.getEmail())
+                    .orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            revokeAllUserTokens(user);
+            saveUserToken(user, jwtToken);
+            return AuthenticationResponse.builder().token(jwtToken).build();
+        } catch (Exception e) {
+            String errorMessage = "El usuario no está registrado";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage, e);
+        }
     }
 
     private void saveUserToken(User user, String jwtToken) {
